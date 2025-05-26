@@ -1,0 +1,33 @@
+.container {
+    margin: 20px;
+    width: 400px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.formTitle {
+    font-size: 1.5rem;
+}
+
+.form-group {
+    margin: 10px;
+}
+
+.dateText {
+    display: flex;
+    flex-direction: row;
+    width: 272px;
+}
+
+.dateText>div {
+    margin-right: 30px;
+}

@@ -1,0 +1,21 @@
+/* TextArea */
+.container {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.labelTitle {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.textContainer {
+    border: 1px solid grey;
+    border-radius: 5px;
+    resize: none;
+}
+
+.medium {
+    width: 272px;
+}
