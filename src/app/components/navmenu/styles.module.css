@@ -1,3 +1,26 @@
-.container {}
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+    height: 70px;
+    align-items: center;
+}
 
-.item {}
+.item {
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin: 0 100px;
+}
+
+.underline {
+    border-bottom: 1px solid black;
+}
+
+.chars {
+    border-bottom: 1px solid black;
+}
+
+.tables {
+    border-bottom: 1px solid black;
+}
