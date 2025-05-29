@@ -5,9 +5,11 @@ import messages from '@/app/utils/messages';
 import Button from '../button/Button';
 import Dropdown from '../dropdown/Dropdown';
 import { HABITS, MOODS } from './misc';
+import TextArea from '../input/TextArea';
 
 type Props = {
     handleFormSubmit: (selection: FormSelection | {}) => void
+    dateInfo: string
 }
 
 type FormSelection = {
@@ -20,7 +22,7 @@ const errorMessages = {
     email: 'Emails should have this format: name@[gmail].[com]'
 }
 
-const Form = ({ handleFormSubmit }: Props) => {
+const Form = ({ handleFormSubmit, dateInfo }: Props) => {
     const [formSelections, setFormSelection] = useState<FormSelection | {}>({})
     const [ctaDisabled, setCtaDIsabled] = useState(true)
 
@@ -47,9 +49,15 @@ const Form = ({ handleFormSubmit }: Props) => {
     }
 
     const handleSubmit = () => {
-        handleFormSubmit(formSelections)
+        return handleFormSubmit(formSelections)
     }
 
+    const handleTextInput = (text: string) => {
+        setFormSelection({
+            ...formSelections,
+            text
+        })
+    }
 
     return (
         <div className={styles.container} >
@@ -57,10 +65,11 @@ const Form = ({ handleFormSubmit }: Props) => {
                 <div className={styles.formTitle}>{messages.form.title}</div>
                 <div className={styles.dateText}>
                     <div>Date:</div>
-                    <div>{'12-06-2025 12:45 PM'}</div>
+                    <div>{dateInfo}</div>
                 </div>
-                <Dropdown menuItems={HABITS} size='medium' handleSelection={handleHabitSelection} />
-                <Dropdown menuItems={MOODS} size='medium' handleSelection={handleMoodSelection} />
+                <Dropdown menuItems={HABITS} size='medium' label={'habit'} handleSelection={handleHabitSelection} />
+                <Dropdown menuItems={MOODS} size='medium' label={'mood'} handleSelection={handleMoodSelection} />
+                <TextArea handleTextInput={handleTextInput} label={"thought"} size={'medium'} />
                 <Button name={messages.form.cta} size='medium' handleClick={handleSubmit} disabled={ctaDisabled} />
             </div>
         </div>

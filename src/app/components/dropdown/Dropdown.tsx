@@ -7,13 +7,14 @@ import messages from '@/app/utils/messages';
 type Props = {
   menuItems: Record<string, string>[]
   size: string
+  label: string
   handleSelection: (item: Record<string, string>) => void
 }
 
-const Dropdown = ({ menuItems, size = 'medium', handleSelection }: Props) => {
+const Dropdown = ({ menuItems, size = 'medium', handleSelection, label }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(menuItems[0])
-
+  var title = label.charAt(0).toUpperCase() + label.substring(1)
 
   const handleSelected = (item: Record<string, string>) => {
     handleSelection(item)
@@ -22,7 +23,7 @@ const Dropdown = ({ menuItems, size = 'medium', handleSelection }: Props) => {
 
   return (
     <div>
-      <label htmlFor='Habit' className={styles.labelTitle}>{messages.form.label}</label>
+      <label htmlFor={label} className={styles.labelTitle}>{title}</label>
       <div className={`${styles.dropdownContainer} ${styles[size]}`} onClick={() => setIsOpen(!isOpen)}>
         <div className={styles.selectedItem}>
           <div style={{ backgroundColor: selected.color }}></div>
