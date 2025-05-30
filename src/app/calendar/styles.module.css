@@ -1,0 +1,11 @@
+.container {
+    max-width: 80%;
+    margin: 50px auto;
+}
+
+@media only screen and (max-width: 480px) {
+    .container {
+        margin: none;
+        max-width: 100%;
+    }
+}

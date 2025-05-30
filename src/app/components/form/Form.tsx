@@ -9,6 +9,7 @@ import TextArea from '../input/TextArea';
 
 type Props = {
     handleFormSubmit: (selection: FormSelection | {}) => void
+    handleCloseForm: () => void
     dateInfo: string
 }
 
@@ -22,7 +23,7 @@ const errorMessages = {
     email: 'Emails should have this format: name@[gmail].[com]'
 }
 
-const Form = ({ handleFormSubmit, dateInfo }: Props) => {
+const Form = ({ handleFormSubmit, dateInfo, handleCloseForm }: Props) => {
     const [formSelections, setFormSelection] = useState<FormSelection | {}>({})
     const [ctaDisabled, setCtaDIsabled] = useState(true)
 
@@ -60,17 +61,19 @@ const Form = ({ handleFormSubmit, dateInfo }: Props) => {
     }
 
     return (
-        <div className={styles.container} >
-            <div className={styles.formContainer}>
-                <div className={styles.formTitle}>{messages.form.title}</div>
-                <div className={styles.dateText}>
-                    <div>Date:</div>
-                    <div>{dateInfo}</div>
+        <div className={styles.backdrop}>
+            <div className={styles.container} >
+                <div className={styles.formContainer}>
+                    <div className={styles.formTitle}>{messages.form.title}</div>
+                    <div className={styles.dateText}>
+                        <div>Date:</div>
+                        <div>{dateInfo}</div>
+                    </div>
+                    <Dropdown menuItems={HABITS} size='medium' label={'habit'} handleSelection={handleHabitSelection} />
+                    <Dropdown menuItems={MOODS} size='medium' label={'mood'} handleSelection={handleMoodSelection} />
+                    <TextArea handleTextInput={handleTextInput} label={"thought"} size={'medium'} />
+                    <Button name={messages.form.cta} size='medium' handleClick={handleSubmit} disabled={ctaDisabled} />
                 </div>
-                <Dropdown menuItems={HABITS} size='medium' label={'habit'} handleSelection={handleHabitSelection} />
-                <Dropdown menuItems={MOODS} size='medium' label={'mood'} handleSelection={handleMoodSelection} />
-                <TextArea handleTextInput={handleTextInput} label={"thought"} size={'medium'} />
-                <Button name={messages.form.cta} size='medium' handleClick={handleSubmit} disabled={ctaDisabled} />
             </div>
         </div>
     )

@@ -24,3 +24,36 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+
+/* .fc {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.fc-scrollgrid,
+.fc-scrollgrid table {
+  border: none !important;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border: none !important;
+} */
+
+/* .fc-scrollgrid,
+.fc-scrollgrid table,
+.fc-scrollgrid td,
+.fc-scrollgrid th {
+  border: none !important;
+} */
+
+.fc {
+  font-size: 0.8rem;
+}
+
+.fc .fc-daygrid-day-frame {
+  padding: 2px;
+}
+
+.fc-toolbar-chunk {
+  display: none;
+}

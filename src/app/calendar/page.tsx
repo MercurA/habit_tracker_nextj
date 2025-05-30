@@ -4,18 +4,28 @@ import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { createPortal } from "react-dom";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Form from "../components/form/Form";
+import styles from './styles.module.css'
 
 const CalendatPage = () => {
     const calendarRef = useRef(null)
     const [openForm, setOpenForm] = useState(false)
     const [formData, setFormData] = useState({})
     const [dateInfo, setDateInfo] = useState('')
+    const [width, setWidth] = useState<number | null>(null);
+
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, [])
 
     useEffect(() => {
         if (calendarRef && formData.hasOwnProperty('form')) {
-            console.log(1)
             const calendarApi = calendarRef?.current?.getApi();
             calendarApi.addEvent({
                 title: formData?.form?.mood?.name,
@@ -47,15 +57,20 @@ const CalendatPage = () => {
         setOpenForm(false)
     }
 
+    const handleCloseForm = () => setOpenForm(false)
+
+    const adjustContentHeight = () => width < 500 ? width : width / 2
+
     return (
-        <div>
+        <div className={styles.container}>
             <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
                 dateClick={handleCLick}
+                contentHeight={adjustContentHeight()}
             />
-            {openForm && createPortal(<Form handleFormSubmit={handleFormSubmit} dateInfo={dateInfo} />, document.body)}
+            {openForm && createPortal(<Form handleFormSubmit={handleFormSubmit} dateInfo={dateInfo} handleCloseForm={handleCloseForm} />, document.body)}
         </div>
     )
 }
