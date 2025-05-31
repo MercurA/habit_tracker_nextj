@@ -7,13 +7,17 @@ import { createPortal } from "react-dom";
 import { use, useEffect, useRef, useState } from "react";
 import Form from "../components/form/Form";
 import styles from './styles.module.css'
+import { CssDimValue } from "@fullcalendar/core/index.js";
+import { formatData } from "./utils";
+import { FormCollection, FormInfo } from "./types";
 
 const CalendatPage = () => {
     const calendarRef = useRef(null)
     const [openForm, setOpenForm] = useState(false)
-    const [formData, setFormData] = useState({})
+    const [formData, setFormData] = useState<FormInfo>({})
+    const [dataCollection, setDataCollection] = useState<FormCollection[]>([])
     const [dateInfo, setDateInfo] = useState('')
-    const [width, setWidth] = useState<number | null>(null);
+    const [width, setWidth] = useState<number>(0);
 
     useEffect(() => {
         const handleResize = () => setWidth(window.innerWidth);
@@ -26,6 +30,8 @@ const CalendatPage = () => {
 
     useEffect(() => {
         if (calendarRef && formData.hasOwnProperty('form')) {
+
+            setDataCollection([...dataCollection, ...formatData(formData)])
             const calendarApi = calendarRef?.current?.getApi();
             calendarApi.addEvent({
                 title: formData?.form?.mood?.name,
@@ -59,7 +65,7 @@ const CalendatPage = () => {
 
     const handleCloseForm = () => setOpenForm(false)
 
-    const adjustContentHeight = () => width < 500 ? width : width / 2
+    const adjustContentHeight = (): CssDimValue | undefined => width < 500 ? width : width / 2
 
     return (
         <div className={styles.container}>

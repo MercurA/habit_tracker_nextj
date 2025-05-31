@@ -1,0 +1,12 @@
+import { FormCollection, FormInfo } from "./types";
+
+export const formatData = (formData: FormInfo): FormCollection[] => {
+    let formatedData = [{
+        date: formData.date,
+        habit: formData.form.habit,
+        mood: formData.form.mood
+    }]
+    const collection = []
+    collection.push(...formatedData)
+    return collection
+}

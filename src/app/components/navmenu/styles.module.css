@@ -74,6 +74,13 @@
         z-index: -1;
     }
 
+    .title {
+        display: block;
+        text-align: center;
+        flex: 1;
+        padding: 20px 50px 0 0;
+        font-size: 1.2rem;
+    }
 
     @keyframes menuAnimationIn {
         from {

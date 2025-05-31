@@ -63,6 +63,7 @@ const Form = ({ handleFormSubmit, dateInfo, handleCloseForm }: Props) => {
     return (
         <div className={styles.backdrop}>
             <div className={styles.container} >
+                <div className={styles.closeIcon} onClick={handleCloseForm}></div>
                 <div className={styles.formContainer}>
                     <div className={styles.formTitle}>{messages.form.title}</div>
                     <div className={styles.dateText}>

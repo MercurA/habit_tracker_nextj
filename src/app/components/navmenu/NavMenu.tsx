@@ -77,7 +77,7 @@ const NavMenu = () => {
                     <span className={styles.menuLine}></span>
                     <span className={styles.menuLine}></span>
                 </div>
-                <div>{currentPage.charAt(1).toUpperCase() + currentPage.substring(2)}</div>
+                <div className={styles.title}>{currentPage.charAt(1).toUpperCase() + currentPage.substring(2)}</div>
                 {(open || animating) &&
                     <div className={`${styles.menu} ${open ? styles.slideIn : styles.slideOut}`}>
                         {NAV_ITEMS.map((item, index) => (

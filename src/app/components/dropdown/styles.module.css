@@ -65,6 +65,7 @@
 
 .item {
     margin: 5px;
+    width: 100%;
 }
 
 .item:hover {
