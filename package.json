@@ -16,6 +16,7 @@
     "@fullcalendar/interaction": "^6.1.17",
     "@fullcalendar/react": "^6.1.17",
     "@next/env": "^15.4.0-canary.51",
+    "@prisma/client": "^6.8.2",
     "chart.js": "^4.4.9",
     "firebase": "^11.6.1",
     "next": "15.2.2",

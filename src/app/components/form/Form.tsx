@@ -24,7 +24,7 @@ const errorMessages = {
 }
 
 const Form = ({ handleFormSubmit, dateInfo, handleCloseForm }: Props) => {
-    const [formSelections, setFormSelection] = useState<FormSelection | {}>({})
+    const [formSelections, setFormSelection] = useState<FormSelection | {}>({ text: '' })
     const [ctaDisabled, setCtaDIsabled] = useState(true)
 
     useEffect(() => {

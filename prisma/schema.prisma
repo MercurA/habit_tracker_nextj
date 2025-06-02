@@ -13,3 +13,30 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model Entry {
+  id        String   @id @default(cuid())      // or you can use `@default(uuid())`
+  date      DateTime
+  habit     Habit    @relation(fields: [habitId], references: [id])
+  habitId   String
+  mood      Mood     @relation(fields: [moodId], references: [id])
+  moodId    String
+  text      String
+  allDay    Boolean
+  createdAt DateTime @default(now())
+}
+
+model Mood {
+  id      String   @id @default(cuid())
+  name    String   @unique
+  color   String
+  entries Entry[]
+}
+
+model Habit {
+  id      String   @id @default(cuid())
+  name    String   @unique
+  color   String
+  entries Entry[]
+}

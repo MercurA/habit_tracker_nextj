@@ -9,9 +9,10 @@ import Form from "../components/form/Form";
 import styles from './styles.module.css'
 import { CssDimValue } from "@fullcalendar/core/index.js";
 import { formatData } from "./utils";
-import { FormCollection, FormInfo } from "./types";
+import { FormInfo } from "./types";
 import { useAppContext } from "../context/AppContext";
 import { SET_CALENDAR_DATA } from "../state/actions";
+import { getEvents, postEvent } from "./services";
 
 const CalendatPage = () => {
     const { state, dispatch } = useAppContext()
@@ -22,17 +23,10 @@ const CalendatPage = () => {
     const [dateInfo, setDateInfo] = useState('')
     const [width, setWidth] = useState<number>(0);
 
+
     useEffect(() => {
-        if (state.calendarData.length) {
-            const calendarApi = calendarRef?.current?.getApi();
-            state.calendarData.map(data => {
-                calendarApi.addEvent({
-                    id: data.id,
-                    title: data?.mood?.name,
-                    start: data?.date,
-                    color: data?.mood?.color,
-                });
-            })
+        if (state.calendarData.length === 0) {
+            getEvents(dispatch)
         }
 
         const handleResize = () => setWidth(window.innerWidth);
@@ -43,10 +37,10 @@ const CalendatPage = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, [])
 
+
     useEffect(() => {
         if (calendarRef && formData.hasOwnProperty('form')) {
-
-            dispatch({ type: SET_CALENDAR_DATA, payload: formatData(formData) })
+            postEvent(formData, dispatch)
             setFormData({})
         }
     }, [formData])
@@ -60,6 +54,9 @@ const CalendatPage = () => {
                     title: data?.mood?.name,
                     start: data?.date,
                     color: data?.mood?.color,
+                    allday: true,
+                    textColor: '#fff',
+                    display: 'block'
                 });
             }
         })
