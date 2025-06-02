@@ -8,7 +8,14 @@ export type FormInfo = {
 }
 
 export type FormCollection = {
+    id: string
     date: string
-    habit: Record<string, string>
-    mood: Record<string, string>
+    habit: {
+        name: string,
+        color: string
+    }
+    mood: {
+        name: string,
+        color: string
+    }
 }

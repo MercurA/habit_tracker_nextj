@@ -1,7 +1,9 @@
 import { FormCollection, FormInfo } from "./types";
 
 export const formatData = (formData: FormInfo): FormCollection[] => {
+    const uuid = `env-${Date.now()}`
     let formatedData = [{
+        id: uuid,
         date: formData.date,
         habit: formData.form.habit,
         mood: formData.form.mood
@@ -10,3 +12,4 @@ export const formatData = (formData: FormInfo): FormCollection[] => {
     collection.push(...formatedData)
     return collection
 }
+

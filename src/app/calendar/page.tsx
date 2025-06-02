@@ -10,16 +10,31 @@ import styles from './styles.module.css'
 import { CssDimValue } from "@fullcalendar/core/index.js";
 import { formatData } from "./utils";
 import { FormCollection, FormInfo } from "./types";
+import { useAppContext } from "../context/AppContext";
+import { SET_CALENDAR_DATA } from "../state/actions";
 
 const CalendatPage = () => {
+    const { state, dispatch } = useAppContext()
+
     const calendarRef = useRef(null)
     const [openForm, setOpenForm] = useState(false)
     const [formData, setFormData] = useState<FormInfo>({})
-    const [dataCollection, setDataCollection] = useState<FormCollection[]>([])
     const [dateInfo, setDateInfo] = useState('')
     const [width, setWidth] = useState<number>(0);
 
     useEffect(() => {
+        if (state.calendarData.length) {
+            const calendarApi = calendarRef?.current?.getApi();
+            state.calendarData.map(data => {
+                calendarApi.addEvent({
+                    id: data.id,
+                    title: data?.mood?.name,
+                    start: data?.date,
+                    color: data?.mood?.color,
+                });
+            })
+        }
+
         const handleResize = () => setWidth(window.innerWidth);
 
         handleResize();
@@ -31,20 +46,34 @@ const CalendatPage = () => {
     useEffect(() => {
         if (calendarRef && formData.hasOwnProperty('form')) {
 
-            setDataCollection([...dataCollection, ...formatData(formData)])
-            const calendarApi = calendarRef?.current?.getApi();
-            calendarApi.addEvent({
-                title: formData?.form?.mood?.name,
-                start: formData?.date,
-                allDay: formData.allDay,
-                color: formData?.form?.mood?.color,
-            });
+            dispatch({ type: SET_CALENDAR_DATA, payload: formatData(formData) })
             setFormData({})
         }
     }, [formData])
 
+    useEffect(() => {
+        const calendarApi = calendarRef?.current?.getApi();
+        state.calendarData.map(data => {
+            if (!checkIfDateIsPresent(data.id)) {
+                calendarApi.addEvent({
+                    id: data.id,
+                    title: data?.mood?.name,
+                    start: data?.date,
+                    color: data?.mood?.color,
+                });
+            }
+        })
+    }, [state.calendarData])
+
+    const checkIfDateIsPresent = (id: string) => {
+        const calendarApi = calendarRef.current?.getApi();
+        const existingEvents = calendarApi.getEvents();
+        return existingEvents.some((event) => {
+            return event.id === id
+        })
+    }
+
     const handleCLick = (info: DateClickArg) => {
-        console.log(info)
         setDateInfo(info.dateStr)
         setFormData({
             ...formData,
@@ -55,7 +84,6 @@ const CalendatPage = () => {
     }
 
     const handleFormSubmit = (formSelections: any) => {
-        console.log(formSelections)
         setFormData({
             ...formData,
             form: formSelections
